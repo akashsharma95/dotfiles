@@ -17,7 +17,7 @@ keys = [
     # Window manager controls
     Key([mod, 'control'], 'r', lazy.restart()),
     Key([mod, 'control'], 'q', lazy.shutdown()),
-    Key([mod], 'Return', lazy.spawn('gnome-terminal')),
+    Key([mod], 'Return', lazy.spawn("termite -e tmux")),
     Key([mod], 'w',      lazy.window.kill()),
     Key([alt], 'F2',      lazy.spawncmd()),
 
@@ -56,7 +56,8 @@ keys = [
     Key([mod, 'shift'], "space", lazy.layout.flip()),
 
     # Some Launchers
-    Key([mod, alt], "t", lazy.spawn("termite -e tmux")),
+    Key([mod, alt], "s", lazy.spawn("gnome-control-center")),
+    Key([mod, alt], "t", lazy.spawn("gnome-terminal")),
     Key([mod, alt], "f", lazy.spawn("firefox")),
     Key([mod, alt], "n", lazy.spawn("nautilus")),
     Key([mod, alt], "m", lazy.spawn("audacious")),
@@ -81,7 +82,7 @@ keys = [
         [], "XF86MonBrightnessDown",
         lazy.spawn("xbacklight -1")),
     Key(
-        [mod, alt], "s",
+        [mod], "s",
         lazy.spawn("sh -c \'"+lock+" && systemctl suspend\'")),
 ]
 
@@ -193,6 +194,7 @@ def autostart():
     subprocess.Popen("/usr/bin/gnome-keyring-daemon --start --components=ssh".split())
     subprocess.Popen("/usr/lib/evolution/evolution-alarm-notify")
     subprocess.Popen("nm-applet")
+    subprocess.Popen("vnstatd --config '.vnstat.conf' -d -p '/home/cry0g3n/.vnstat/pid'".split())
     # subprocess.Popen("gnome-terminal")
     subprocess.Popen("redshift -l 22.8265277:86.17281530000002".split())
 

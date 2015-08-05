@@ -1,2 +1,4 @@
 Bundle 'phildawes/racer'
 Bundle 'benmills/vimux'
+Bundle 'Wutzara/vim-materialtheme'
+Bundle 'vimwiki/vimwiki'
