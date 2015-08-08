@@ -162,7 +162,8 @@ screens = [
                widget.TextBox(text="BAT:", foreground=colors[0], fontsize=12),
                widget.Battery(battery_name="BAT1", low_percentage=0.50, format='{percent:1.0%} {hour:d}:{min:02d}', foreground="#0FFF00"),
                widget.TextBox(text=" ⌚", foreground=colors[0], fontsize=18),
-               widget.Clock(fmt="%a %d-%m-%Y %H:%M")
+               widget.Clock(format="%a %d-%m-%Y %I:%M %p")
+
             ],
             size=25,
         ),
@@ -194,7 +195,7 @@ def autostart():
     subprocess.Popen("/usr/bin/gnome-keyring-daemon --start --components=ssh".split())
     subprocess.Popen("/usr/lib/evolution/evolution-alarm-notify")
     subprocess.Popen("nm-applet")
-    subprocess.Popen("vnstatd --config '.vnstat.conf' -d -p '/home/cry0g3n/.vnstat/pid'".split())
+    subprocess.Popen("vnstatd --config '/home/cry0g3n/.vnstat.conf' -d -p '/home/cry0g3n/.vnstat/pid'".split())
     # subprocess.Popen("gnome-terminal")
     subprocess.Popen("redshift -l 22.8265277:86.17281530000002".split())
 
