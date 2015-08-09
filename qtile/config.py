@@ -162,7 +162,7 @@ screens = [
                widget.TextBox(text="BAT:", foreground=colors[0], fontsize=12),
                widget.Battery(battery_name="BAT1", low_percentage=0.50, format='{percent:1.0%} {hour:d}:{min:02d}', foreground="#0FFF00"),
                widget.TextBox(text=" ⌚", foreground=colors[0], fontsize=18),
-               widget.Clock(format="%a %d-%m-%Y %I:%M %p")
+               widget.Clock(format="%d-%m-%Y %H:%M")
 
             ],
             size=25,
