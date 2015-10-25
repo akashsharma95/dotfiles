@@ -1,11 +1,12 @@
 [options]
-font = Source Code Pro for Powerline Semibold 11
+font = Hasklig Semibold 11
 cursor_shape = block
 browser = firefox
 allow_bold = true
 dynamic_title = true
 mouse_autohide = true
 icon_name = terminal
+audible_bell = true
 
 [colors]
 

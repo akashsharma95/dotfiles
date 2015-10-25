@@ -1,15 +1,10 @@
-#![feature(unboxed_closures)]
-#![feature(plugin)]
-#![feature(box_syntax)]
-#![feature(std_misc, collections, path_ext)]
 #[macro_use]
 #[macro_use]
 extern crate wtftw;
 extern crate wtftw_contrib;
 
-use std::fs::PathExt;
 use std::io::Write;
-use std::path::Path;
+use std::fs::metadata;
 use std::env;
 use std::ops::Deref;
 //use std::ffi::AsOsStr;
@@ -35,10 +30,11 @@ pub extern fn configure(_: &mut WindowManager, w: &WindowSystem, config: &mut Co
     config.general.layout = LayoutCollection::new(vec!(
             GapLayout::new(0, AvoidStrutsLayout::new(vec!(Direction::Up, Direction::Down), BinarySpacePartition::new())),
             GapLayout::new(0, AvoidStrutsLayout::new(vec!(Direction::Up, Direction::Down), MirrorLayout::new(BinarySpacePartition::new()))),
-            NoBordersLayout::new(box FullLayout)));
+            NoBordersLayout::new(Box::new(FullLayout))));
 
-    config.general.tags = (vec!("one", "three", "four",
-                                "two"))
+    config.general.tags = (vec!("1: Work1", "2: Work2", "3: Web",
+                                "4: Email", "5: Chat", "6: Music",
+                                "7: VM"))
         .into_iter().map(String::from).collect();
 
     // Register key handlers
@@ -120,11 +116,11 @@ pub extern fn configure(_: &mut WindowManager, w: &WindowSystem, config: &mut Co
     let home = home_dir.as_os_str().to_str().unwrap();
     let xmobar_config = format!("{}/.xmonad/xmobar1.hs", home);
 
-    if Path::new(&xmobar_config.clone()).is_file() {
-        let mut xmobar = spawn_pipe(config, "/home/rootnode/.cabal/bin/xmobar",
+    if metadata(&xmobar_config).map(|s| s.is_file()).unwrap_or(false) {
+        let mut xmobar = spawn_pipe(config, "/usr/bin/xmobar",
                                     vec!(xmobar_config));
         let tags = config.general.tags.clone();
-        config.set_log_hook(box move |m, w| {
+        config.set_log_hook(Box::new(move |m, w| {
             let p = &mut xmobar;
             let tags = &tags;
             let workspaces = tags.clone().iter()
@@ -156,6 +152,6 @@ pub extern fn configure(_: &mut WindowManager, w: &WindowSystem, config: &mut Co
                 },
                 _ => ()
             }
-        });
+        }));
     };
 }

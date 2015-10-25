@@ -1,3 +1,8 @@
+Bundle 'xolox/vim-notes'
+Bundle 'gilgigilgil/anderson.vim'
+Bundle 'xolox/vim-misc'
+Bundle 'xolox/vim-session'
+Bundle 'chazmcgarvey/vimcoder'
 Bundle 'phildawes/racer'
 Bundle 'benmills/vimux'
 Bundle 'Wutzara/vim-materialtheme'

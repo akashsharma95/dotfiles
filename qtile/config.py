@@ -59,6 +59,7 @@ keys = [
     Key([mod, alt], "s", lazy.spawn("gnome-control-center")),
     Key([mod, alt], "t", lazy.spawn("gnome-terminal")),
     Key([mod, alt], "f", lazy.spawn("firefox")),
+    Key([mod, alt], "b", lazy.spawn("chromium --incognito")),
     Key([mod, alt], "n", lazy.spawn("nautilus")),
     Key([mod, alt], "m", lazy.spawn("audacious")),
     Key([mod, alt], "p", lazy.spawn("gnome-mplayer")),
@@ -67,23 +68,23 @@ keys = [
 
     # Change the volume if your keyboard has special volume keys.
     Key(
-        [], "XF86AudioRaiseVolume",
-        lazy.spawn("amixer -c 0 -q set Master 2dB+")),
+        [], "XF86AudioRaiseVolume", lazy.spawn("amixer -c 0 -q set Master 2dB+")),
     Key(
-        [], "XF86AudioLowerVolume",
-        lazy.spawn("amixer -c 0 -q set Master 2dB-")),
+        [], "XF86AudioLowerVolume", lazy.spawn("amixer -c 0 -q set Master 2dB-")),
     Key(
-        [], "XF86AudioMute",
-        lazy.spawn("amixer -c 0 -q set Master toggle")),
+        [], "XF86AudioMute", lazy.spawn("amixer -c 0 -q set Master toggle")),
     Key(
-        [], "XF86MonBrightnessUp",
-        lazy.spawn("xbacklight +1")),
+        [], "XF86MonBrightnessUp", lazy.spawn("xbacklight +1")),
     Key(
-        [], "XF86MonBrightnessDown",
-        lazy.spawn("xbacklight -1")),
+        [], "XF86MonBrightnessDown", lazy.spawn("xbacklight -1")),
     Key(
-        [mod], "s",
-        lazy.spawn("sh -c \'"+lock+" && systemctl suspend\'")),
+        [mod], "s", lazy.spawn("sh -c \'"+lock+" && systemctl suspend\'")),
+
+    # Optional Brightness & Audio Setting for external keyboard
+    Key( [alt, "shift"], "Left", lazy.spawn("xbacklight -1")),
+    Key( [alt, "shift"], "Right", lazy.spawn("xbacklight +1")),
+    Key( [alt, "shift"], "Up", lazy.spawn("amixer -c 0 -q set Master 2dB+")),
+    Key( [alt, "shift"], "Down", lazy.spawn("amixer -c 0 -q set Master 2dB-")),
 ]
 
 # Mouse bindings and options
@@ -147,12 +148,11 @@ screens = [
                widget.TaskList(borderwidth=1, background=colors[1],
                                border=colors[0], urgent_border=colors[0]),
                widget.Prompt(prompt="$ ", font="DejaVu Sans Mono", foreground=colors[0], completer="cmd"),
-               widget.Notify(),
                widget.Systray(background=colors[1]),
                widget.TextBox(text="◤", fontsize=45, padding=-1,
                               foreground=colors[1], background=colors[2]),
-               # widget.BitcoinTicker(),
-               widget.Net(interface="wlp3s0", update_interval=1),
+               widget.BitcoinTicker(format='BTC B:{buy}, S:{sell} | '),
+               widget.Net(interface="wlp3s0"),
                widget.TextBox(text="CPU:", foreground=colors[0], fontsize=12),
                widget.CPUGraph(core="all"),
                widget.TextBox(text="Layout:", foreground=colors[0], fontsize=12),
@@ -193,6 +193,7 @@ def autostart():
     subprocess.Popen("/usr/bin/gnome-keyring-daemon --start --components=secrets".split())
     subprocess.Popen("/usr/bin/gnome-keyring-daemon --start --components=pkcs11".split())
     subprocess.Popen("/usr/bin/gnome-keyring-daemon --start --components=ssh".split())
+    subprocess.Popen("mpd")
     subprocess.Popen("/usr/lib/evolution/evolution-alarm-notify")
     subprocess.Popen("nm-applet")
     subprocess.Popen("vnstatd --config '/home/cry0g3n/.vnstat.conf' -d -p '/home/cry0g3n/.vnstat/pid'".split())

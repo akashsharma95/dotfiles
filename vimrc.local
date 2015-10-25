@@ -1,3 +1,6 @@
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
 let g:airline_theme = 'dark'
 let g:snips_author = 'nxnfufunezn <nxnfufunezn@gmail.com>'
 syntax enable
@@ -11,8 +14,11 @@ let g:airline#extensions#tabline#left_sep = ''
 let g:airline#extensions#tabline#right_sep = ''
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
+map <Leader>tg :!tig<CR>
 map <Leader>rc :call VimuxRunCommand("clear; rustc " . bufname("%"))<CR>:call VimuxRunCommand("./".expand("%:r"))<CR>
 map <leader>x :VimuxPromptCommand<CR>
 nnoremap <F9> :make<CR><CR>
-let g:racer_cmd = "~/Applications/racer/target/release/racer"
+let g:racer_cmd = "/home/cry0g3n/Applications/racer/target/release/racer"
+let $RUST_SRC_PATH = "/home/cry0g3n/Documents/Projects/rust/src/"
 iunmap <ESC>
+let g:session_autoload = 'no'
