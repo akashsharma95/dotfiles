@@ -64,6 +64,7 @@ don't match the predicate."
                  company
                  flycheck
                  flycheck-rust
+                 monokai-theme
                  fill-column-indicator
                  yasnippet))
 
