@@ -19,6 +19,7 @@
 (setq large-file-warning-threshold nil)
 (setq split-width-threshold nil)
 (setq visible-bell t)
+(global-linum-mode t)
 (setq fill-column 100)
 (set-face-attribute 'default nil
                     :family "Source Code Pro"
@@ -62,9 +63,9 @@ don't match the predicate."
                  rustfmt
                  racer
                  company
+                 monokai-theme
                  flycheck
                  flycheck-rust
-                 monokai-theme
                  fill-column-indicator
                  yasnippet))
 
