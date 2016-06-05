@@ -1,5 +1,5 @@
 ;; Set path to racer binary
-(setq racer-cmd "/home/cry0g3n/Applications/racer/target/release/racer")
+(setq racer-cmd "/home/cry0g3n/.cargo/bin/racer")
 
 ;; Set path to rust src directory
 (setq racer-rust-src-path "/home/cry0g3n/Documents/Projects/rust/src/")
@@ -26,5 +26,8 @@
          ;; Key binding to auto complete and indent
          (global-set-key (kbd "TAB") #'company-indent-or-complete-common) ;
          (setq company-tooltip-align-annotations t))
+
+         ;; Goto definition
+         (global-set-key (kbd "\C-c j") 'racer-find-definition)
 )
 (provide 'rust)
