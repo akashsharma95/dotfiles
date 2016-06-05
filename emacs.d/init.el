@@ -26,7 +26,7 @@
                     :height 110
                     :weight 'semi-bold)
 
-
+ (setq org-log-done 'time)
 ; Package Settings
 (require 'package)
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
@@ -50,12 +50,14 @@ don't match the predicate."
 (packages-install
                '(magit
                  evil
+                 evil-leader
                  markdown-mode
                  anzu
                  powerline
                  powerline-evil
                  rainbow-delimiters
                  nyan-mode
+                 neotree
                  smartparens
                  helm
                  auto-package-update
@@ -64,18 +66,20 @@ don't match the predicate."
                  racer
                  company
                  monokai-theme
+                 seq
                  flycheck
                  flycheck-rust
                  fill-column-indicator
                  yasnippet))
 
-; Update Package weekly
-(require 'auto-package-update)
-(setq auto-package-update-interval 7)
-(auto-package-update-maybe)
+; Update Package weekly ## Commented out this weekly update due to unnecessary updating of plugins
+; (require 'auto-package-update)
+; (setq auto-package-update-interval 30)
+; (auto-package-update-maybe)
 
 ; Helm Settings
 (require 'helm-config)
+(helm-mode 1)
 
 ; Anzu-mode Settings
 (global-anzu-mode +1)
@@ -115,7 +119,56 @@ don't match the predicate."
 ; YASnipppet
 (require 'yasnippet)
 (yas-global-mode 1)
+
+; neotree
+(require 'neotree)
+(global-set-key [f8] 'neotree-toggle)
+ (add-hook 'neotree-mode-hook
+            (lambda ()
+              (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
+              (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
+              (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+              (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
+
 ;;Language Specific Settings
 
 ; Rust
 (require 'rust)
+
+; OCaml
+;; Tureg
+(load "/home/cry0g3n/.opam/system/share/emacs/site-lisp/tuareg-site-file")
+;; Caml-mode
+(add-to-list 'load-path "/home/cry0g3n/.opam/system/share/emacs/site-lisp/")
+
+
+; Golang
+
+;; godoc
+(defun set-exec-path-from-shell-PATH ()
+  (let ((path-from-shell (replace-regexp-in-string
+                          "[ \t\n]*$"
+                          ""
+                          (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
+    (setenv "PATH" path-from-shell)
+    (setq eshell-path-env path-from-shell) ; for eshell users
+    (setq exec-path (split-string path-from-shell path-separator))))
+
+(when window-system (set-exec-path-from-shell-PATH))
+
+;; GOPATH
+(setenv "GOPATH" "/home/cry0g3n/Applications/go")
+
+;; Go-mode-setup
+(defun go-mode-setup ()
+ (setq compile-command "go build -v; and go test -v; and go vet")
+ (define-key (current-local-map) "\C-c\C-c" 'compile)
+ (go-eldoc-setup)
+ (setq gofmt-command "goimports")
+ (add-hook 'before-save-hook 'gofmt-before-save)
+ (local-set-key (kbd "M-.") 'godef-jump))
+(add-hook 'go-mode-hook 'go-mode-setup)
+
+;; Go-Autocomplete
+(require 'auto-complete-config)
+(require 'go-autocomplete)
