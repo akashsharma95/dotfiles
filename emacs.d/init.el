@@ -26,7 +26,14 @@
                     :height 110
                     :weight 'semi-bold)
 
- (setq org-log-done 'time)
+(setq org-log-done 'time)
+(defconst emacs-tmp-dir (format "%s/" "/home/cry0g3n/.emacs_temp"))
+(setq backup-directory-alist
+    `((".*" . ,emacs-tmp-dir)))
+(setq auto-save-file-name-transforms
+    `((".*" ,emacs-tmp-dir t)))
+(setq auto-save-list-file-prefix
+                  emacs-tmp-dir)
 ; Package Settings
 (require 'package)
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
@@ -76,6 +83,9 @@ don't match the predicate."
 ; (require 'auto-package-update)
 ; (setq auto-package-update-interval 30)
 ; (auto-package-update-maybe)
+
+; Get PATH env
+(when window-system (exec-path-from-shell-initialize))
 
 ; Helm Settings
 (require 'helm-config)
@@ -143,18 +153,6 @@ don't match the predicate."
 
 
 ; Golang
-
-;; godoc
-(defun set-exec-path-from-shell-PATH ()
-  (let ((path-from-shell (replace-regexp-in-string
-                          "[ \t\n]*$"
-                          ""
-                          (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
-    (setenv "PATH" path-from-shell)
-    (setq eshell-path-env path-from-shell) ; for eshell users
-    (setq exec-path (split-string path-from-shell path-separator))))
-
-(when window-system (set-exec-path-from-shell-PATH))
 
 ;; GOPATH
 (setenv "GOPATH" "/home/cry0g3n/Applications/go")
